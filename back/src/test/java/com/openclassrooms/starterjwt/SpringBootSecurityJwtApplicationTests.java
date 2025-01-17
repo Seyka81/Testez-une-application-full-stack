@@ -1,13 +1,39 @@
 package com.openclassrooms.starterjwt;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import com.openclassrooms.starterjwt.controllers.AuthController;
+import com.openclassrooms.starterjwt.controllers.SessionController;
+import com.openclassrooms.starterjwt.controllers.TeacherController;
+import com.openclassrooms.starterjwt.controllers.UserController;
 
 @SpringBootTest
 public class SpringBootSecurityJwtApplicationTests {
 
+	@Autowired
+	private AuthController authController;
+
+	@Autowired
+	private UserController userController;
+
+	@Autowired
+	private TeacherController teacherController;
+
+	@Autowired
+	private SessionController sessionController;
+
+
 	@Test
-	public void contextLoads() {
+	void testContextLoads() {
+		assertNotNull(authController);
+		assertNotNull(userController);
+		assertNotNull(teacherController);
+		assertNotNull(sessionController);
 	}
+
 
 }
