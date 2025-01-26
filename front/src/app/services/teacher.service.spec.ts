@@ -12,15 +12,15 @@ describe('TeacherService', () => {
   const now = new Date();
   const teacher1 = {
     id: 1,
-    lastName: 'LeBricoleur',
-    firstName: 'Bob',
+    lastName: 'DELAHAYE',
+    firstName: 'Margot',
     createdAt: now,
     updatedAt: now,
   };
   const teacher2 = {
     id: 2,
-    lastName: 'InChain',
-    firstName: 'Alice',
+    lastName: 'THIERCELIN',
+    firstName: 'Hélène',
     createdAt: now,
     updatedAt: now,
   };
@@ -41,7 +41,18 @@ describe('TeacherService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-  it('all should return an observable of Teacher collection', (done) => {
+
+  it('detail should return an observable of Teacher', (done) => {
+    http.get = jest.fn(() => new Observable<any>((obs) => obs.next(teacher1)));
+    subs.push(
+      service.detail('1').subscribe((teacher) => {
+        expect(teacher).toBe(teacher1);
+        done();
+      })
+    );
+  });
+
+  it('should return an observable of Teacher collection', (done) => {
     http.get = jest.fn(
       () => new Observable<any>((obs) => obs.next([teacher1, teacher2]))
     );
@@ -50,16 +61,6 @@ describe('TeacherService', () => {
         expect(teachers.length).toBe(2);
         expect(teachers[0]).toBe(teacher1);
         expect(teachers[1]).toBe(teacher2);
-        done();
-      })
-    );
-  });
-
-  it('detail should return an observable of Teacher', (done) => {
-    http.get = jest.fn(() => new Observable<any>((obs) => obs.next(teacher1)));
-    subs.push(
-      service.detail('1').subscribe((teacher) => {
-        expect(teacher).toBe(teacher1);
         done();
       })
     );

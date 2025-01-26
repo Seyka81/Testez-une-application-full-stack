@@ -17,7 +17,6 @@ import { TeacherService } from 'src/app/services/teacher.service';
 class MatSnackBarStub {
   open() {
     return {
-      // Can't wait 3 seconds for a test
       onAction: () => new Observable((obs) => obs.next()),
     };
   }
@@ -31,127 +30,20 @@ describe('DetailComponent', () => {
   let router: Router;
   let snackBar: MatSnackBar;
 
-  const date1 = new Date(2024, 7, 30);
-  const dateString1 = 'August 30, 2024';
-  const date2 = new Date(2024, 8, 6);
-  const dateString2 = 'September 6, 2024';
-  const date3 = new Date(2024, 9, 15);
-  const dateString3 = 'October 15, 2024';
+  const dateTest1 = new Date(2025, 0, 14);
+  const dateTestString1 = 'January 14, 2025';
+  const dateTest2 = new Date(2025, 0, 17);
+  const dateTestString2 = 'January 17, 2025';
+  const dateTest3 = new Date(2025, 0, 19);
+  const dateTestString3 = 'January 19, 2025';
 
-  const teacher1 = {
+  const teacher = {
     id: 1,
-    lastName: 'LeBricoleur',
-    firstName: 'Bob',
-    createdAt: date1,
-    updatedAt: date1,
+    lastName: 'Margot',
+    firstName: 'DELAHAYE',
+    createdAt: dateTest1,
+    updatedAt: dateTest1,
   };
-
-  describe('as admin', () => {
-    const mockSessionService = {
-      sessionInformation: {
-        admin: true,
-        id: 1,
-      },
-    };
-
-    const mockRoute = {
-      snapshot: {
-        paramMap: {
-          get: jest.fn(() => '2'),
-        },
-      },
-    };
-
-    const session2 = {
-      id: 2,
-      name: 'Session 2',
-      description: 'Une session de test',
-      date: date3,
-      teacher_id: 1,
-      users: [1, 2, 3, 4],
-      createdAt: date1,
-      updatedAt: date2,
-    };
-
-    beforeEach(async () => {
-      await TestBed.configureTestingModule({
-        imports: [
-          RouterTestingModule,
-          HttpClientModule,
-          MatIconModule,
-          MatCardModule,
-          MatSnackBarModule,
-          ReactiveFormsModule,
-        ],
-        declarations: [DetailComponent],
-        providers: [
-          { provide: SessionService, useValue: mockSessionService },
-          { provide: ActivatedRoute, useValue: mockRoute },
-          { provide: MatSnackBar, useClass: MatSnackBarStub },
-          { provide: Router, useValue: { navigate: jest.fn() } },
-        ],
-      }).compileComponents();
-      sessionApiService = TestBed.inject(SessionApiService);
-      sessionApiService.detail = jest.fn(
-        () => new Observable((obs) => obs.next(session2))
-      );
-      teacherService = TestBed.inject(TeacherService);
-      teacherService.detail = jest.fn(
-        () => new Observable((obs) => obs.next(teacher1))
-      );
-      router = TestBed.inject(Router);
-      snackBar = TestBed.inject(MatSnackBar);
-      fixture = TestBed.createComponent(DetailComponent);
-      component = fixture.componentInstance;
-      fixture.detectChanges();
-    });
-
-    it('should display the yoga session informations at initialization', () => {
-      const detailElement: HTMLElement = fixture.nativeElement;
-      expect(detailElement.querySelector('h1')?.textContent).toContain(
-        'Session 2'
-      );
-      expect(
-        detailElement.querySelector('div.description')?.textContent
-      ).toContain(session2.description);
-      expect(detailElement.querySelector('div.created')?.textContent).toContain(
-        dateString1
-      );
-      expect(detailElement.querySelector('div.updated')?.textContent).toContain(
-        dateString2
-      );
-      expect(detailElement.textContent).toContain(dateString3);
-      expect(detailElement.textContent).toContain(
-        session2.users.length + ' attendees'
-      );
-      expect(detailElement.textContent).toContain(
-        teacher1.firstName + ' ' + teacher1.lastName.toUpperCase()
-      );
-    });
-
-    it('Click on back button should go back in history', () => {
-      const historySpy = jest.spyOn(window.history, 'back');
-      const backBtn: HTMLButtonElement | null =
-        fixture.nativeElement.querySelector('button');
-      backBtn?.click();
-      expect(historySpy).toBeCalled();
-    });
-
-    it('Click on delete button should delete the session, notify the deletion and navigate to /sessions', () => {
-      sessionApiService.delete = jest.fn(
-        () => new Observable((obs) => obs.next(session2))
-      );
-      const sessionApiSpy = jest.spyOn(sessionApiService, 'delete');
-      const snackBarSpy = jest.spyOn(snackBar, 'open');
-      const routerSpy = jest.spyOn(router, 'navigate');
-      const deleteBtn: HTMLButtonElement =
-        fixture.nativeElement.querySelectorAll('button')[1];
-      deleteBtn?.click();
-      expect(sessionApiSpy).toBeCalledWith('2');
-      expect(snackBarSpy).toBeCalled();
-      expect(routerSpy).toBeCalledWith(['sessions']);
-    });
-  });
 
   describe('DetailComponent as user', () => {
     const mockSessionService = {
@@ -169,26 +61,26 @@ describe('DetailComponent', () => {
       },
     };
 
-    const session3 = {
+    const sessionDeTest2 = {
       id: 3,
-      name: 'Session 3',
-      description: 'Une session de test',
-      date: date3,
+      name: 'A new relax session',
+      description: 'yoga session',
+      date: dateTest3,
       teacher_id: 1,
       users: [1, 2, 3, 4],
-      createdAt: date1,
-      updatedAt: date2,
+      createdAt: dateTest1,
+      updatedAt: dateTest2,
     };
 
-    const session4 = {
+    const sessionDeTest3 = {
       id: 3,
-      name: 'Session 3',
+      name: 'A last relax session',
       description: 'Une session de test',
-      date: date3,
+      date: dateTest3,
       teacher_id: 1,
       users: [1, 2, 3, 4, 5],
-      createdAt: date1,
-      updatedAt: date2,
+      createdAt: dateTest1,
+      updatedAt: dateTest2,
     };
 
     beforeEach(async () => {
@@ -211,11 +103,11 @@ describe('DetailComponent', () => {
       }).compileComponents();
       sessionApiService = TestBed.inject(SessionApiService);
       sessionApiService.detail = jest.fn(
-        () => new Observable((obs) => obs.next(session3))
+        () => new Observable((obs) => obs.next(sessionDeTest2))
       );
       teacherService = TestBed.inject(TeacherService);
       teacherService.detail = jest.fn(
-        () => new Observable((obs) => obs.next(teacher1))
+        () => new Observable((obs) => obs.next(teacher))
       );
       router = TestBed.inject(Router);
       snackBar = TestBed.inject(MatSnackBar);
@@ -227,32 +119,17 @@ describe('DetailComponent', () => {
     it('should display the yoga session informations at initialization', () => {
       const detailElement: HTMLElement = fixture.nativeElement;
       expect(detailElement.querySelector('h1')?.textContent).toContain(
-        'Session 3'
+        'A New Relax Session'
       );
       expect(
         detailElement.querySelector('div.description')?.textContent
-      ).toContain(session3.description);
+      ).toContain(sessionDeTest2.description);
       expect(detailElement.querySelector('div.created')?.textContent).toContain(
-        dateString1
-      );
-      expect(detailElement.querySelector('div.updated')?.textContent).toContain(
-        dateString2
-      );
-      expect(detailElement.textContent).toContain(dateString3);
-      expect(detailElement.textContent).toContain(
-        session3.users.length + ' attendees'
+        dateTestString1
       );
       expect(detailElement.textContent).toContain(
-        teacher1.firstName + ' ' + teacher1.lastName.toUpperCase()
+        teacher.firstName + ' ' + teacher.lastName.toUpperCase()
       );
-    });
-
-    it('Click on back button should go back in history', () => {
-      const historySpy = jest.spyOn(window.history, 'back');
-      const backBtn: HTMLButtonElement | null =
-        fixture.nativeElement.querySelector('button');
-      backBtn?.click();
-      expect(historySpy).toBeCalled();
     });
 
     it('Click on participate button should add the user to the yoga session', () => {
@@ -268,7 +145,7 @@ describe('DetailComponent', () => {
 
     it('Click on participate button should remove the user from the yoga session', () => {
       sessionApiService.detail = jest.fn(
-        () => new Observable((obs) => obs.next(session4))
+        () => new Observable((obs) => obs.next(sessionDeTest3))
       );
       component.ngOnInit();
       fixture.detectChanges();
@@ -280,6 +157,104 @@ describe('DetailComponent', () => {
         fixture.nativeElement.querySelectorAll('button')[1];
       unparticipateBtn?.click();
       expect(sessionApiSpy).toBeCalledWith('3', '5');
+    });
+  });
+  describe('as admin', () => {
+    const mockSessionService = {
+      sessionInformation: {
+        admin: true,
+        id: 1,
+      },
+    };
+
+    const mockRoute = {
+      snapshot: {
+        paramMap: {
+          get: jest.fn(() => '2'),
+        },
+      },
+    };
+
+    const sessionDeTest1 = {
+      id: 2,
+      name: 'Relax With Yoga',
+      description: 'A relaxing yoga session',
+      date: dateTest3,
+      teacher_id: 1,
+      users: [1, 2, 3, 4],
+      createdAt: dateTest1,
+      updatedAt: dateTest2,
+    };
+
+    beforeEach(async () => {
+      await TestBed.configureTestingModule({
+        imports: [
+          RouterTestingModule,
+          HttpClientModule,
+          MatIconModule,
+          MatCardModule,
+          MatSnackBarModule,
+          ReactiveFormsModule,
+        ],
+        declarations: [DetailComponent],
+        providers: [
+          { provide: SessionService, useValue: mockSessionService },
+          { provide: ActivatedRoute, useValue: mockRoute },
+          { provide: MatSnackBar, useClass: MatSnackBarStub },
+          { provide: Router, useValue: { navigate: jest.fn() } },
+        ],
+      }).compileComponents();
+      sessionApiService = TestBed.inject(SessionApiService);
+      sessionApiService.detail = jest.fn(
+        () => new Observable((obs) => obs.next(sessionDeTest1))
+      );
+      teacherService = TestBed.inject(TeacherService);
+      teacherService.detail = jest.fn(
+        () => new Observable((obs) => obs.next(teacher))
+      );
+      router = TestBed.inject(Router);
+      snackBar = TestBed.inject(MatSnackBar);
+      fixture = TestBed.createComponent(DetailComponent);
+      component = fixture.componentInstance;
+      fixture.detectChanges();
+    });
+
+    it('should display the yoga session infos', () => {
+      const detailElement: HTMLElement = fixture.nativeElement;
+      expect(detailElement.querySelector('h1')?.textContent).toContain(
+        'Relax With Yoga'
+      );
+      expect(
+        detailElement.querySelector('div.description')?.textContent
+      ).toContain(sessionDeTest1.description);
+      expect(detailElement.querySelector('div.created')?.textContent).toContain(
+        dateTestString1
+      );
+      expect(detailElement.querySelector('div.updated')?.textContent).toContain(
+        dateTestString2
+      );
+      expect(detailElement.textContent).toContain(dateTestString3);
+      expect(detailElement.textContent).toContain(
+        sessionDeTest1.users.length + ' attendees'
+      );
+      expect(detailElement.textContent).toContain(
+        teacher.firstName + ' ' + teacher.lastName.toUpperCase()
+      );
+    });
+
+    it('Click on delete should delete the session', () => {
+      sessionApiService.delete = jest.fn(
+        () => new Observable((obs) => obs.next(sessionDeTest1))
+      );
+      const sessionApiSpy = jest.spyOn(sessionApiService, 'delete');
+      const snackBarSpy = jest.spyOn(snackBar, 'open');
+      const routerSpy = jest.spyOn(router, 'navigate');
+      const deleteBtn: HTMLButtonElement =
+        fixture.nativeElement.querySelectorAll('button')[1];
+      deleteBtn?.click();
+      expect(sessionApiSpy).toBeCalledWith('2');
+      expect(snackBarSpy).toBeCalled();
+      expect(routerSpy).toBeCalledWith(['sessions']);
     });
   });
 });

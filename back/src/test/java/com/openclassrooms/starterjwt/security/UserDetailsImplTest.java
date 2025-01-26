@@ -15,7 +15,7 @@ public class UserDetailsImplTest {
 
     @Test
     public void UserDetails_shouldInstantiate() {
-        UserDetails userDetails = new UserDetailsImpl(1L, "bob@test.com", "Bob", "Le Bricoleur", true, "pass4321");
+        UserDetails userDetails = new UserDetailsImpl(1L, "random@gmail.com", "random", "gmail", true, "password");
         assertInstanceOf(UserDetailsImpl.class, userDetails);
     }
 

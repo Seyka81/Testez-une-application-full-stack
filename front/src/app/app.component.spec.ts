@@ -20,7 +20,6 @@ describe('AppComponent', () => {
   let mockSessionService: jest.Mocked<SessionService>;
 
   beforeEach(async () => {
-    // Mock Services
     mockAuthService = {} as jest.Mocked<AuthService>;
 
     mockRouter = {
@@ -28,11 +27,10 @@ describe('AppComponent', () => {
     } as unknown as jest.Mocked<Router>;
 
     mockSessionService = {
-      $isLogged: jest.fn().mockReturnValue(of(true)), // Simule un utilisateur connecté
+      $isLogged: jest.fn().mockReturnValue(of(true)),
       logOut: jest.fn(),
     } as unknown as jest.Mocked<SessionService>;
 
-    // Configure TestBed
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpClientModule, MatToolbarModule],
       declarations: [AppComponent],
@@ -43,7 +41,6 @@ describe('AppComponent', () => {
       ],
     }).compileComponents();
 
-    // Create component instance
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
   });
@@ -52,7 +49,7 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call sessionService.$isLogged() and return an Observable<boolean>', (done) => {
+  it('Should call sessionService.$isLogged()', (done) => {
     component.$isLogged().subscribe((isLogged) => {
       expect(isLogged).toBe(true);
       expect(mockSessionService.$isLogged).toHaveBeenCalled();
@@ -60,7 +57,7 @@ describe('AppComponent', () => {
     });
   });
 
-  it('should navigate to the home page', () => {
+  it('Should navigate to the home page', () => {
     component.logout();
     expect(mockRouter.navigate).toHaveBeenCalledWith(['']);
   });
@@ -90,7 +87,7 @@ describe('AppComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should display Login and Register links', () => {
+    it('should display Login and Register', () => {
       const links: HTMLElement[] =
         fixture.nativeElement.querySelectorAll('span.link');
       expect(links[0].textContent).toBe('Login');
@@ -108,15 +105,15 @@ describe('AppComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should display Session, Account and Logout links', () => {
+    it('should display some links', () => {
       const links: HTMLElement[] =
         fixture.nativeElement.querySelectorAll('span.link');
       expect(links[0].textContent).toBe('Sessions');
-      expect(links[1].textContent).toBe('Account');
       expect(links[2].textContent).toBe('Logout');
+      expect(links[1].textContent).toBe('Account');
     });
 
-    it('Click on logout Link should log user out and go back to site root', () => {
+    it('Click on logout link should log out', () => {
       const sessionServiceSpy = jest.spyOn(sessionService, 'logOut');
       const routerSpy = jest.spyOn(router, 'navigate');
       app.logout();

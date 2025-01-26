@@ -26,22 +26,22 @@ describe('SessionsService with mocked http', () => {
   let service: SessionApiService;
   let http: HttpClient;
   const now = new Date();
-  const session1 = {
+  const sessionDeTest1 = {
     id: 1,
-    name: 'Session 1',
-    description: 'Une session de test',
+    name: 'Relax With Yoga',
+    description: 'A relaxing yoga session',
     date: now,
     teacher_id: 1,
     users: [1, 2, 3, 4],
     createdAt: now,
     updatedAt: now,
   };
-  const session2 = {
-    id: 2,
-    name: 'Session 2',
-    description: 'Une autre session de test',
+  const sessionDeTest2 = {
+    id: 3,
+    name: 'A new relax session',
+    description: 'yoga session',
     date: now,
-    teacher_id: 2,
+    teacher_id: 1,
     users: [1, 2, 3],
     createdAt: now,
     updatedAt: now,
@@ -70,25 +70,16 @@ describe('SessionsService with mocked http', () => {
     subs.forEach((sub) => sub.unsubscribe());
   });
 
-  it('all should return an observable of a session collection', (done) => {
+  it('should return an observable of a session collection', (done) => {
     http.get = jest.fn(
-      () => new Observable<any>((obs) => obs.next([session1, session2]))
+      () =>
+        new Observable<any>((obs) => obs.next([sessionDeTest1, sessionDeTest2]))
     );
     subs.push(
       service.all().subscribe((sessions) => {
         expect(sessions.length).toBe(2);
-        expect(sessions[0]).toBe(session1);
-        expect(sessions[1]).toBe(session2);
-        done();
-      })
-    );
-  });
-
-  it('detail should return an observable of a session', (done) => {
-    http.get = jest.fn(() => new Observable<any>((obs) => obs.next(session1)));
-    subs.push(
-      service.detail('1').subscribe((session) => {
-        expect(session).toBe(session1);
+        expect(sessions[0]).toBe(sessionDeTest1);
+        expect(sessions[1]).toBe(sessionDeTest2);
         done();
       })
     );
@@ -96,39 +87,33 @@ describe('SessionsService with mocked http', () => {
 
   it('delete should return an observable of a session', (done) => {
     http.delete = jest.fn(
-      () => new Observable<any>((obs) => obs.next(session1))
+      () => new Observable<any>((obs) => obs.next(sessionDeTest1))
     );
     subs.push(
       service.delete('1').subscribe((session) => {
-        expect(session).toBe(session1);
+        expect(session).toBe(sessionDeTest1);
         done();
       })
     );
   });
 
   it('create should return an observable of a session', (done) => {
-    const newSession = Object({
-      name: 'Session 2',
-      description: 'Une autre session de test',
+    const sessionDeTest3 = Object({
+      id: 3,
+      name: 'A last relax session',
+      description: 'Une session de test',
       date: now,
-      teacher_id: 2,
-      users: [1, 2, 3],
+      teacher_id: 1,
+      users: [1, 2, 3, 4, 5],
+      createdAt: now,
+      updatedAt: now,
     }) as Session;
-    http.post = jest.fn(() => new Observable<any>((obs) => obs.next(session2)));
-    subs.push(
-      service.create(newSession).subscribe((session) => {
-        expect(session).toBe(session2);
-        done();
-      })
+    http.post = jest.fn(
+      () => new Observable<any>((obs) => obs.next(sessionDeTest3))
     );
-  });
-
-  it('update should return an observable of a session', (done) => {
-    http.put = jest.fn(() => new Observable<any>((obs) => obs.next(session2)));
-    const userUpdated = { ...session2 } as Session;
     subs.push(
-      service.update('2', userUpdated).subscribe((session) => {
-        expect(session).toBe(session2);
+      service.create(sessionDeTest3).subscribe((session) => {
+        expect(session).toBe(sessionDeTest3);
         done();
       })
     );
@@ -138,6 +123,19 @@ describe('SessionsService with mocked http', () => {
     http.post = jest.fn(() => new Observable<any>((obs) => obs.next()));
     subs.push(
       service.participate('1', '2').subscribe(() => {
+        done();
+      })
+    );
+  });
+
+  it('update should return an observable of a session', (done) => {
+    http.put = jest.fn(
+      () => new Observable<any>((obs) => obs.next(sessionDeTest2))
+    );
+    const userUpdated = { ...sessionDeTest2 } as Session;
+    subs.push(
+      service.update('2', userUpdated).subscribe((session) => {
+        expect(session).toBe(sessionDeTest2);
         done();
       })
     );

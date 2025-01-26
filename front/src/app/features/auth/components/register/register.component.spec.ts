@@ -53,7 +53,7 @@ describe('RegisterComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('navigates to login after successful registration', () => {
+  it('redirect to login after register', () => {
     const registerSpy = jest
       .spyOn(mockAuthService, 'register')
       .mockReturnValue(of(void 0));
@@ -64,7 +64,7 @@ describe('RegisterComponent', () => {
     expect(registerSpy).toHaveBeenCalled;
   });
 
-  it('sets onError true if registration fails', () => {
+  it('Error true if registration fails', () => {
     const errorSpy = jest
       .spyOn(mockAuthService, 'register')
       .mockReturnValueOnce(throwError(new Error()));

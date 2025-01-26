@@ -1,72 +1,80 @@
-# Yoga
+# **Yoga - Frontend**
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.0.
+Ce projet a été généré avec [Angular CLI](https://github.com/angular/angular-cli) version **14.1.0**.
 
-## Start the project
+## **Installation et Lancement**
 
-Git clone:
+### **Étape 1 : Cloner le projet**
 
-> git clone https://github.com/OpenClassrooms-Student-Center/P5-Full-Stack-testing
+Commencez par cloner le dépôt :
 
-Go inside folder:
+```bash
+git clone https://github.com/Seyka81/Testez-une-application-full-stack.git
+cd front
+```
 
-> cd yoga
+### **Étape 2 : Installer les dépendances**
 
-Install dependencies:
+Une fois dans le dossier `front`, installez les dépendances nécessaires avec :
 
-> npm install
+```bash
+npm install
+```
 
-Launch Front-end:
+### **Étape 3 : Lancer le Frontend**
 
-> npm run start;
+Pour démarrer le serveur de développement Angular, exécutez :
 
+```bash
+npm run start
+```
 
-## Ressources
+Le projet sera accessible par défaut sur : [http://localhost:4200](http://localhost:4200).
 
-### Mockoon env 
+## **Base de Données**
 
-### Postman collection
+Assurez-vous que le backend et la base de données MySQL sont correctement configurés. Pour plus d'informations, consultez la documentation du backend.
 
-For Postman import the collection
+## **Tests**
 
-> ressources/postman/yoga.postman_collection.json 
+### **Tests End-to-End (E2E)**
 
-by following the documentation: 
+1. **Lancer les tests E2E :**
 
-https://learning.postman.com/docs/getting-started/importing-and-exporting-data/#importing-data-into-postman
+   Pour exécuter les tests E2E, utilisez la commande suivante :
 
+   ```bash
+   npm run e2e
+   ```
 
-### MySQL
+2. **Générer un rapport de couverture :**
 
-SQL script for creating the schema is available `ressources/sql/script.sql`
+   Avant de générer le rapport de couverture, assurez-vous d'avoir exécuté les tests E2E. Utilisez ensuite cette commande :
 
-By default the admin account is:
-- login: yoga@studio.com
-- password: test!1234
+   ```bash
+   npm run e2e:coverage
+   ```
 
+   Le rapport sera disponible ici :
 
-### Test
+   ```plaintext
+   front/coverage/lcov-report/index.html
+   ```
 
-#### E2E
+### **Tests Unitaires**
 
-Launching e2e test:
+1. **Lancer les tests unitaires :**
 
-> npm run e2e
+   Pour exécuter les tests unitaires, utilisez :
 
-Generate coverage report (you should launch e2e test before):
+   ```bash
+   npm run test
+   ```
 
-> npm run e2e:coverage
+2. **Générer un rapport de couverture :**
 
-Report is available here:
+   Avant de générer le rapport de couverture, assurez-vous d'avoir exécuté les tests unitaires. Utilisez ensuite cette commande :
 
-> front/coverage/lcov-report/index.html
-
-#### Unitary test
-
-Launching test:
-
-> npm run test
-
-for following change:
-
-> npm run test:watch
+   ```bash
+   npm run test:coverage
+   ```
