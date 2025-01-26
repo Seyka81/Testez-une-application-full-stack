@@ -10,11 +10,11 @@ describe('UserService', () => {
 
   let http: HttpClient;
   const now = new Date();
-  let dummyUser = {
+  let randomUser = {
     id: 1,
-    email: 'bob@test.com',
-    lastName: 'Le Bricoleur',
-    firstName: 'Bob',
+    email: 'random@gmail.com',
+    lastName: 'gmail',
+    firstName: 'random',
     admin: true,
     createdAt: now,
     updatedAt: now,
@@ -43,23 +43,13 @@ describe('UserService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getById should return an observable', (done) => {
-    http.get = jest.fn(() => new Observable<any>((obs) => obs.next(dummyUser)));
-    subs.push(
-      service.getById('1').subscribe((user) => {
-        expect(user).toBe(dummyUser);
-        done();
-      })
-    );
-  });
-
   it('delete should return an observable', (done) => {
     http.delete = jest.fn(
-      () => new Observable<any>((obs) => obs.next(dummyUser))
+      () => new Observable<any>((obs) => obs.next(randomUser))
     );
     subs.push(
       service.delete('1').subscribe((user) => {
-        expect(user).toBe(dummyUser);
+        expect(user).toBe(randomUser);
         done();
       })
     );

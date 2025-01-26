@@ -20,7 +20,7 @@ describe('User session spec', () => {
       ]
     );
     cy.wait(1000);
-    // Validate the redirection and URL
+
     cy.url().should('include', '/sessions');
   });
 

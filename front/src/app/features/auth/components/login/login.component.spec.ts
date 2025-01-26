@@ -91,13 +91,13 @@ describe('LoginComponent', () => {
     expect(logInSpy).toHaveBeenCalled;
   });
 
-  it('navigates to /sessions on submit', () => {
+  it('redirect to /sessions on submit', () => {
     const navigateSpy = jest.spyOn(mockRouter, 'navigate');
     component.submit();
     expect(navigateSpy).toHaveBeenCalledWith(['/sessions']);
   });
 
-  it('sets onError true if login fails', () => {
+  it('Error true if login fails', () => {
     const error = new Error();
     const errorSpy = jest
       .spyOn(mockAuthService, 'login')

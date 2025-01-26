@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-class Dummy {}
+class randomComponent {}
 
 describe('ListComponent', () => {
   let component: ListComponent;
@@ -19,35 +19,37 @@ describe('ListComponent', () => {
   let sessionApiService: SessionApiService;
   let router: Router;
 
-  const date1 = new Date(2024, 7, 10);
-  const date2 = new Date(2024, 7, 23);
-  const date3 = new Date(2024, 8, 21);
-  const date3Str = 'September 21, 2024';
+  const routes: Routes = [
+    { path: 'sessions/create', component: randomComponent },
+    { path: 'sessions/update/:id', component: randomComponent },
+  ];
+
+  const dateTest1 = new Date(2025, 0, 14);
+  const dateTest2 = new Date(2025, 0, 17);
+  const dateTest3 = new Date(2025, 0, 19);
+  const dateTestString3 = 'January 19, 2025';
+
   const sessions = [
     {
       id: 1,
       name: 'Session 1',
       description: 'Une session de test',
-      date: date3,
+      date: dateTest3,
       teacher_id: 1,
       users: [1, 2, 3, 4],
-      createdAt: date1,
-      updatedAt: date2,
+      createdAt: dateTest1,
+      updatedAt: dateTest2,
     },
     {
       id: 2,
       name: 'Session 2',
       description: 'Une autre session de test',
-      date: date3,
+      date: dateTest3,
       teacher_id: 2,
       users: [1, 2, 3],
-      createdAt: date1,
-      updatedAt: date2,
+      createdAt: dateTest1,
+      updatedAt: dateTest2,
     },
-  ];
-  const routes: Routes = [
-    { path: 'sessions/create', component: Dummy },
-    { path: 'sessions/update/:id', component: Dummy },
   ];
 
   describe('as Admin', () => {
@@ -95,10 +97,10 @@ describe('ListComponent', () => {
       ).toContain(sessions[0].name);
       expect(
         matCardItemElements[0].querySelector('mat-card-subtitle')?.textContent
-      ).toContain('Session on ' + date3Str);
+      ).toContain('Session on ' + dateTestString3);
       expect(
         matCardItemElements[0].querySelector('mat-card-subtitle')?.textContent
-      ).toContain('Session on ' + date3Str);
+      ).toContain('Session on ' + dateTestString3);
       expect(
         matCardItemElements[0].querySelector(
           'button[ng-reflect-router-link="detail,' + sessions[0].id + '"]'

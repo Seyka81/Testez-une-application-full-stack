@@ -22,11 +22,7 @@ describe('SessionService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('$isLogged should return an observable initialized', () => {
-    expect(service.$isLogged()).toBeDefined();
-  });
-
-  it('$isLogged should return a boolean observable initialized at false', (done) => {
+  it('$isLogged should return a boolean observable', (done) => {
     subs.push(
       service.$isLogged().subscribe((logged) => {
         expect(logged).toBe(false);
@@ -39,9 +35,9 @@ describe('SessionService', () => {
     const session = Object({
       token: 'token',
       type: 'type',
-      username: 'bob',
-      firstName: 'Bob',
-      lastName: 'Le Bricoleur',
+      username: 'userName',
+      firstName: 'firstName',
+      lastName: 'lastName',
       admin: true,
     }) as SessionInformation;
     service.logIn(session);

@@ -20,7 +20,6 @@ import { Observable } from 'rxjs';
 class MatSnackBarStub {
   open() {
     return {
-      // Can't wait 3 seconds for a test
       onAction: () => new Observable((obs) => obs.next()),
     };
   }
@@ -102,7 +101,7 @@ describe('FormComponent', () => {
     fixture.detectChanges();
   });
 
-  it('initialization should display session data in update mod', async () => {
+  it('Init should display session data', async () => {
     sessionApiService.detail = jest.fn(
       () => new Observable<any>((obs) => obs.next(session1))
     );
@@ -114,22 +113,25 @@ describe('FormComponent', () => {
     expect(formElement.querySelector('h1')?.textContent).toBe('Update session');
   });
 
-  it('initialization should display an empty session form in create mod', async () => {
+  it('should disable save when form is empty or not valid', async () => {
     await router.navigate(['sessions', 'create']);
     component.ngOnInit();
     fixture.detectChanges();
-    expect(component.onUpdate).toBe(false);
-    expect(component.sessionForm?.value).toEqual({
-      name: '',
+    const saveBtn: HTMLButtonElement = fixture.nativeElement.querySelector(
+      'button[type="submit"]'
+    );
+    expect(saveBtn.disabled).toBe(true);
+    component.sessionForm?.setValue({
+      name: 'Fake session',
       date: '',
-      teacher_id: '',
-      description: '',
+      teacher_id: '1',
+      description: 'Description',
     });
-    const formElement: HTMLElement = fixture.nativeElement;
-    expect(formElement.querySelector('h1')?.textContent).toBe('Create session');
+    fixture.detectChanges();
+    expect(saveBtn.disabled).toBe(true);
   });
 
-  it('Click on Save Button should create session in create mod then exit to /sessions', async () => {
+  it('Click on save should create session then exit to /sessions', async () => {
     sessionApiService.create = jest.fn(
       () => new Observable<any>((obs) => obs.next(session1))
     );
@@ -150,7 +152,7 @@ describe('FormComponent', () => {
     expect(routerSpy).toBeCalledWith(['sessions']);
   });
 
-  it('Click on Save Button should update session in update mod then exit to /sessions', async () => {
+  it('Click on save should update session then exit to /sessions', async () => {
     sessionApiService.detail = jest.fn(
       () => new Observable<any>((obs) => obs.next(session1))
     );
@@ -173,21 +175,18 @@ describe('FormComponent', () => {
     expect(routerSpy).toBeCalledWith(['sessions']);
   });
 
-  it('should disable Save Button when form is empty or not valid', async () => {
+  it('Init should display an empty session form', async () => {
     await router.navigate(['sessions', 'create']);
     component.ngOnInit();
     fixture.detectChanges();
-    const saveBtn: HTMLButtonElement = fixture.nativeElement.querySelector(
-      'button[type="submit"]'
-    );
-    expect(saveBtn.disabled).toBe(true);
-    component.sessionForm?.setValue({
-      name: 'Fake session',
+    expect(component.onUpdate).toBe(false);
+    expect(component.sessionForm?.value).toEqual({
+      name: '',
       date: '',
-      teacher_id: '1',
-      description: 'Description',
+      teacher_id: '',
+      description: '',
     });
-    fixture.detectChanges();
-    expect(saveBtn.disabled).toBe(true);
+    const formElement: HTMLElement = fixture.nativeElement;
+    expect(formElement.querySelector('h1')?.textContent).toBe('Create session');
   });
 });
