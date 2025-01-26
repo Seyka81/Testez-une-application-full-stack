@@ -4,6 +4,6 @@
 
 Vous trouverez ici les documentations afin de lancer l'application au complet :
 
-- [Backend](backend/README.md)
+- [Backend](back/README.md)
 
-- [Frontend](frontend/README.md)
+- [Frontend](front/README.md)
