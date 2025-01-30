@@ -45,15 +45,6 @@ public class UserControllerTest {
     @MockBean
     private UserMapper userMapper;
 
-    @MockBean
-    private UserDetailsServiceImpl userDetailsService;
-
-    @MockBean
-    private AuthEntryPointJwt authEntryPointJwt;
-
-    @MockBean
-    private JwtUtils jwtUtils;
-
     @Autowired
     private ObjectMapper objectMapper;
 

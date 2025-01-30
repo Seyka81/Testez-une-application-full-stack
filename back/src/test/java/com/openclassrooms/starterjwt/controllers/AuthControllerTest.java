@@ -36,15 +36,6 @@ public class AuthControllerTest {
     private UserRepository userRepository;
 
     @Autowired
-    private JwtUtils jwtUtils;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private ObjectMapper objectMapper;
 
     @Test

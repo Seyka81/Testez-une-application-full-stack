@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class UserTest {
 
     private User user;
-    private User user1;
     private User user2;
 
     @BeforeEach
@@ -56,7 +55,6 @@ class UserTest {
     }
     @Test
     public void testEquals_sameValues() {
-        // Créer deux objets User avec les mêmes valeurs
         User user1 = new User()
                 .setId(1L)
                 .setEmail("test@example.com")
@@ -73,13 +71,11 @@ class UserTest {
                 .setPassword("password123")
                 .setAdmin(true);
 
-        // Vérifier que les deux objets sont égaux
         assertTrue(user1.equals(user2), "Les utilisateurs devraient être égaux.");
     }
 
     @Test
     public void testEquals_differentValues() {
-        // Créer deux objets User avec des valeurs différentes
         User user1 = new User()
                 .setId(1L)
                 .setEmail("test@example.com")
@@ -96,13 +92,11 @@ class UserTest {
                 .setPassword("password123")
                 .setAdmin(false);
 
-        // Vérifier que les deux objets ne sont pas égaux
         assertFalse(user1.equals(user2), "Les utilisateurs ne devraient pas être égaux.");
     }
 
     @Test
     public void testEquals_sameReference() {
-        // Créer un objet User
         User user1 = new User()
                 .setId(1L)
                 .setEmail("test@example.com")
@@ -111,13 +105,11 @@ class UserTest {
                 .setPassword("password123")
                 .setAdmin(true);
 
-        // Vérifier que l'objet est égal à lui-même
         assertTrue(user1.equals(user1), "Un utilisateur devrait être égal à lui-même.");
     }
 
     @Test
     public void testEquals_null() {
-        // Créer un objet User
         User user1 = new User()
                 .setId(1L)
                 .setEmail("test@example.com")
@@ -126,13 +118,11 @@ class UserTest {
                 .setPassword("password123")
                 .setAdmin(true);
 
-        // Vérifier que l'objet n'est pas égal à null
         assertFalse(user1.equals(null), "Un utilisateur ne devrait pas être égal à null.");
     }
 
     @Test
     public void testEquals_differentClass() {
-        // Créer un objet User
         User user1 = new User()
                 .setId(1L)
                 .setEmail("test@example.com")
@@ -141,10 +131,8 @@ class UserTest {
                 .setPassword("password123")
                 .setAdmin(true);
 
-        // Créer un objet d'une classe différente (par exemple String)
         String string = "test";
 
-        // Vérifier que l'objet n'est pas égal à un objet d'une classe différente
         assertFalse(user1.equals(string), "Un utilisateur ne devrait pas être égal à un objet d'une classe différente.");
     }
 }
